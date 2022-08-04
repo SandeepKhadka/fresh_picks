@@ -1,3 +1,6 @@
+import jQuery from 'jquery';
+window.$ = jQuery;
+
 import _ from 'lodash';
 window._ = _;
 

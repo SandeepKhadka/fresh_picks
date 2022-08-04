@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->enum('role', ['admin', 'customer', 'seller'])->default('customer');
+            $table->string('activation_token', 100)->nullable();
+            $table->dateTime('token_validate')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
