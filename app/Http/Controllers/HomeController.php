@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,10 +27,14 @@ class HomeController extends Controller
         return redirect()->route(request()->user()->role);
     }
 
-    public function admin(){
-        return view('admin.dashboard');
-    }
+    public function admin()
+    {
+        $newOrdersCount = Order::where('condition', 'processing')->count();
+        $totalIncome = Order::where('condition', 'delivered')->sum('total_amount');
 
+        $latestOrders = Order::latest()->take(5)->get(); 
+        return view('admin.dashboard', compact('newOrdersCount', 'totalIncome', 'latestOrders'));
+    }
     public function seller(){
         return view('/home');
     }

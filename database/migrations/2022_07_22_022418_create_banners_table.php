@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('image');
-            $table->string('link');
             $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->unsignedBigInteger('added_by')->nullable();
             $table->foreign('added_by')->references('id')->on('users')->onDelete('set null');

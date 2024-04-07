@@ -68,6 +68,21 @@ class BannerController extends Controller
         return redirect()->route('banner.index');
     }
 
+    public function getAllBanner()
+{
+    try {
+        $banners = $this->banner->orderBy('id', 'DESC')->where('status', 'active')->get();
+
+        if ($banners->isEmpty()) {
+            return response()->json(['error' => 'No banners found'], 404);
+        }
+
+        return response()->json(['banners' => $banners], 200);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to retrieve banners.'], 500);
+    }
+}
+
     /**
      * Display the specified resource.
      *

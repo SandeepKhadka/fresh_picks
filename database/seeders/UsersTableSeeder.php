@@ -19,22 +19,16 @@ class UsersTableSeeder extends Seeder
     {
         $user_data = [
             [
-                'name' => 'Admin Ecom300',
-                'email' => 'admin@ecom300.com',
+                'name' => 'Admin Fresh Picks',
+                'email' => 'freshpicks@gmail.com',
                 'password' => Hash::make('admin123'),
                 'role' => 'admin',
                 'status' => 'active'
             ],
+          
             [
-                'name' => 'Seller One Ecom300',
-                'email' => 'sellerone@ecom300.com',
-                'password' => Hash::make('sellerone123'),
-                'role' => 'seller',
-                'status' => 'active'
-            ],
-            [
-                'name' => 'Customer One Ecom300',
-                'email' => 'customerone@ecom300.com',
+                'name' => 'Customer',
+                'email' => 'customer@gmail.com',
                 'password' => Hash::make('customerone123'),
                 'role' => 'customer',
                 'status' => 'active'

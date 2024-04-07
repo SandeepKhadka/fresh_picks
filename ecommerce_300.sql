@@ -184,9 +184,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `status`, `role`, `image`, `activation_token`, `token_validate`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Admin Ecom300', 'admin@ecom300.com', NULL, '$2y$10$yLwIoDs89/gf8HN2MtDNuO4RM9V49GE9Jsp7lrasLVNPnQKDRT6QK', 'active', 'admin', NULL, NULL, NULL, 'yyCru1M44MRf4Pp4jaQnsk0SYG4xqeDzRB9bFwdzDnsdl7tumzDXwlNFfZRb', NULL, NULL),
-(3, 'Seller One Ecom300', 'sellerone@ecom300.com', NULL, '$2y$10$Hhyx7KaVLjfcRv8oFBOt/OVNSlzHPtjrKQ2bVgGX4SEJLiKPHvhjG', 'active', 'seller', NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'Customer One Ecom300', 'customerone@ecom300.com', NULL, '$2y$10$E7xpWgQ8TrjLfUXV77GBoO79lk9x.DwSnkmIKZo3xKX3I1pxeNQ1i', 'active', 'customer', NULL, NULL, NULL, NULL, NULL, NULL);
+(2, 'Admin Fresh Picks', 'admin@Fresh Picks.com', NULL, '$2y$10$yLwIoDs89/gf8HN2MtDNuO4RM9V49GE9Jsp7lrasLVNPnQKDRT6QK', 'active', 'admin', NULL, NULL, NULL, 'yyCru1M44MRf4Pp4jaQnsk0SYG4xqeDzRB9bFwdzDnsdl7tumzDXwlNFfZRb', NULL, NULL),
+(3, 'Seller One Fresh Picks', 'sellerone@Fresh Picks.com', NULL, '$2y$10$Hhyx7KaVLjfcRv8oFBOt/OVNSlzHPtjrKQ2bVgGX4SEJLiKPHvhjG', 'active', 'seller', NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 'Customer One Fresh Picks', 'customerone@Fresh Picks.com', NULL, '$2y$10$E7xpWgQ8TrjLfUXV77GBoO79lk9x.DwSnkmIKZo3xKX3I1pxeNQ1i', 'active', 'customer', NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables

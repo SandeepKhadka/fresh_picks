@@ -1,5 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
-@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700");
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display:400,700");
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,500,600,700");
 .clf:after, .clf:before {
   content: '';
   display: table; }
@@ -12,7 +14,7 @@ html {
 
 body {
   overflow-x: hidden;
-  font-family: 'Open Sans', sans-serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   background-color: #f1f1f1;
   color: #333; }
 
@@ -26,9 +28,6 @@ a:hover, a:focus {
 
 a.link {
   color: inherit; }
-
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-  font-weight: 400; }
 
 h6 {
   font-weight: 600; }
@@ -3295,7 +3294,7 @@ body.boxed-layout {
     padding: 10px 45px 10px 10px;
     margin-left: -60px;
     z-index: 1005;
-    font-family: "Poppins";
+    font-family: "Roboto";
     font-size: 16px; }
     .preloader-backdrop .page-preloader::before {
       content: '';

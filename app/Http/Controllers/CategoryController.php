@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -23,10 +24,10 @@ class CategoryController extends Controller
     public function index()
     {
         $this->category = $this->category->with('parent_info')->get();
-//        foreach ($this->category as $category_data){
-//            if (isset($category_data->parent_info['title']))
-//            dd($category_data->parent_info['title']);
-//        }
+        //        foreach ($this->category as $category_data){
+        //            if (isset($category_data->parent_info['title']))
+        //            dd($category_data->parent_info['title']);
+        //        }
         return view('admin.category_list')
             ->with('category_list', $this->category);
     }
@@ -38,7 +39,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $this->category = $this->category->where('is_parent',1)->pluck('title','id');
+        $this->category = $this->category->where('is_parent', 1)->pluck('title', 'id');
         return view('admin.category_form')
             ->with('parent_id', $this->category);
     }
@@ -55,7 +56,7 @@ class CategoryController extends Controller
         $rules = $this->category->rules();
 
         $request->validate($rules);
-        $data = $request->except(['_token', 'image']);
+        $data = $request->except(['_token']);
 
         if ($request->image) {
             $file_name = uploadImage($request->image, "category", '200x200');
@@ -76,8 +77,42 @@ class CategoryController extends Controller
             $request->session()->flash('error', 'Sorry! There was problem while adding category');
         }
         return redirect()->route('category.index');
-
     }
+
+    public function getAllCategory(Request $request)
+    {
+        try {
+            $categories = $this->category->with('parent_info')->where('status', 'active')->get();
+
+            if ($categories->isEmpty()) {
+                return response()->json(['error' => 'No categories found'], 404);
+            }
+
+            return response()->json(['categories' => $categories], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve categories'], 500);
+        }
+    }
+
+    public function getCategoryProducts(Request $request, $categoryId)
+    {
+        try {
+            // Retrieve products belonging to the specified category
+            $products = Product::where('cat_id', $categoryId)->where('status', 'active')->get();
+
+            if ($products->isEmpty()) {
+                // If no products found for the category, return a JSON response with a message
+                return response()->json(['error' => 'No products found for the category'], 404);
+            }
+
+            // If products are found, return a JSON response with the products
+            return response()->json(['products' => $products], 200);
+        } catch (\Exception $e) {
+            // If an exception occurs, return a JSON response with an error message
+            return response()->json(['error' => 'Failed to retrieve products'], 500);
+        }
+    }
+
 
     /**
      * Display the specified resource.
@@ -99,12 +134,12 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $this->category = $this->category->find($id);
-        if (!$this->category){
+        if (!$this->category) {
             \request()->session()->flash('error', 'Category doesnot exits');
             return redirect()->route('category.index');
         }
 
-        $parent_id = $this->category->where('is_parent',1)->pluck('title','id');
+        $parent_id = $this->category->where('is_parent', 1)->pluck('title', 'id');
 
         return view('admin.category_form')
             ->with('parent_id', $parent_id)
@@ -121,38 +156,37 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $this->category = $this->category->find($id);
-        if (!$this->category){
-            $request->session()->flash('error','Category doesnot exists');
+        if (!$this->category) {
+            $request->session()->flash('error', 'Category doesnot exists');
             return redirect()->route('category.index');
         }
         $rules = $this->category->rules('update');
 
         $request->validate($rules);
 
-        $data = $request->except(['_token','image']);
-        if (isset($request->image)){
-            $file_name = uploadImage($request->image,'category','200x200');
-            if ($file_name){
-                if ($this->category->image != null && file_exists(public_path().'/uploads/category/').$this->category->image){
-                    unlink(public_path().'/uploads/category/'.$this->category->image);
-                    unlink(public_path().'/uploads/category/Thumb-'.$this->category->image);
+        $data = $request->except(['_token', 'image']);
+        if (isset($request->image)) {
+            $file_name = uploadImage($request->image, 'category', '200x200');
+            if ($file_name) {
+                if ($this->category->image != null && file_exists(public_path() . '/uploads/category/') . $this->category->image) {
+                    unlink(public_path() . '/uploads/category/' . $this->category->image);
+                    unlink(public_path() . '/uploads/category/Thumb-' . $this->category->image);
                 }
 
                 $data['image'] = $file_name;
-
             }
         }
 
         $data['slug'] = $this->category->getSlug($data['title']);
         $data['is_parent'] = $request->input('is_parent', 0);
         $data['parent_id'] = $data['is_parent'] == 1 ? null : $data['parent_id'];
-//        dd($data);
+        //        dd($data);
         $this->category->fill($data);
         $status = $this->category->save();
 
-        if ($status){
+        if ($status) {
             $request->session()->flash('success', 'Category updated successfully');
-        }else{
+        } else {
             $request->session()->flash('error', 'Sorry! there was problem in updating category');
         }
         return redirect()->route('category.index');
@@ -168,30 +202,27 @@ class CategoryController extends Controller
     {
         $this->category = $this->category->find($id);
 
-        if (!$this->category){
+        if (!$this->category) {
             \request()->session()->flash('error', 'Category not found');
             return redirect()->route('category.index');
         }
 
-        $child_cat_id = $this->category->where('is_parent' ,0)->where('parent_id',$id)->pluck('id');
+        $child_cat_id = $this->category->where('is_parent', 0)->where('parent_id', $id)->pluck('id');
         $image = $this->category->image;
 
         $del = $this->category->delete();
-        if($del){
-            $this->category->whereIn('id',$child_cat_id)->update(['is_parent' => 1]);
+        if ($del) {
+            $this->category->whereIn('id', $child_cat_id)->update(['is_parent' => 1]);
 
-            if($image != null && file_exists(public_path().'/uploads/category/'.$image)){
-                 unlink(public_path().'/uploads/category/'.$image);
-                 unlink(public_path().'/uploads/category/Thumb-'.$image);
+            if ($image != null && file_exists(public_path() . '/uploads/category/' . $image)) {
+                unlink(public_path() . '/uploads/category/' . $image);
+                unlink(public_path() . '/uploads/category/Thumb-' . $image);
             }
-            \request()->session()->flash('success','Category deleted successfully');
-        }else{
-            \request()->session()->flash('error','Sorry! There was problem in deleting category');
-
+            \request()->session()->flash('success', 'Category deleted successfully');
+        } else {
+            \request()->session()->flash('error', 'Sorry! There was problem in deleting category');
         }
 
         return redirect()->route('category.index');
-
-
     }
 }
