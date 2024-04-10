@@ -146,7 +146,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row mb-4">
+                        {{-- <div class="form-group row mb-4">
                             {{ Form::label('is_parent', 'Is parent:', ['class' => 'col-sm-3']) }}
                             <div class="col-sm-9">
                                 {{ Form::checkbox('is_parent', 1, @$category_list->is_parent ?? true, ['id' => 'is_parent']) }}
@@ -164,7 +164,7 @@
                                     <span class="alert-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group row mb-4">
                             {{ Form::label('status', 'Status:', ['class' => 'col-sm-3']) }}
                             <div class="col-sm-9">

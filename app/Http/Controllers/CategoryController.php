@@ -68,7 +68,8 @@ class CategoryController extends Controller
         $data['added_by'] = $request->user()->id;
         $data['slug'] = $this->category->getSlug($data['title']);
 
-        $data['is_parent'] = $request->input('is_parent', 0);
+        // $data['is_parent'] = $request->input('is_parent', 0);
+        $data['is_parent'] = 1;
         $this->category->fill($data);
         $status = $this->category->save();
         if ($status) {
