@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Munal Stores | Order View')
+@section('title', 'Fresh Pickss | Order View')
 @section('main-content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">

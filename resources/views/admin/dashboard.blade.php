@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Admin Dashboard | Munal Store')
+@section('title', 'Admin Dashboard | Fresh Picks')
 
 @section('main-content')
     <div class="page-content fade-in-up">
