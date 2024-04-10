@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('login', [LoginController::class, 'login']);
 Route::post('signup', [LoginController::class, 'signup']);
+Route::post('updateUser/{user_id}', [LoginController::class, 'updateUserDetails']);
 
 // Product API
 Route::get('getProducts', [ProductController::class, 'getProducts']);

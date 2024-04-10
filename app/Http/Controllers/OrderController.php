@@ -82,26 +82,26 @@ class OrderController extends Controller
             'products.*.product_id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|integer|min:1',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
-    
+
         $data = $request->except(['_token', 'products']);
-    
+
         // Generate unique order ID
         // $data['oid'] = uniqid();
         $data['order_number'] = Str::upper('ORD-' . Str::random(4) . rand(0, 100));
-        
+
         // Determine payment status based on payment method
         $data['payment_status'] = ($data['payment_method'] == 'cod') ? 'unpaid' : 'paid';
-        
+
         $data['condition'] = 'processing';
-        $data['delivery_charge'] = 0;
-    
+        $data['delivery_charge'] = 100;
+
         // Create the order
         $order = $this->order->create($data);
-    
+
         // Store products associated with the order in product_orders table
         foreach ($request->input('products') as $product) {
             ProductOrder::create([
@@ -111,26 +111,21 @@ class OrderController extends Controller
             ]);
             // $this->order->products()->attach($product, ['quantity' => $product['quantity']]);
         }
-    
+
         return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
     }
-    
+
     public function getUserOrders(Request $request, $user_id)
     {
-        // Check if the authenticated user matches the requested user
-        // if ($request->user()->id != $user_id) {
-        //     return response()->json(['error' => 'Unauthorized'], 401);
-        // }
-    
-        // Retrieve orders for the specified user
-        $orders = Order::where('user_id', $user_id)->get();
-    
+        // Retrieve orders for the specified user along with their associated products
+        $orders = Order::with('products')->where('user_id', $user_id)->get();
+
         // Check if any orders are found
         if ($orders->isEmpty()) {
             return response()->json(['message' => 'No orders found for this user', 'orders' => []], 200);
         }
-    
-        // Return the orders
+
+        // Return the orders with their associated products
         return response()->json(['orders' => $orders], 200);
     }
 
