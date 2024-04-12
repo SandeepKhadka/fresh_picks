@@ -97,20 +97,37 @@ class ProductController extends Controller
             return response()->json($response, 404);
         }
     
+        // Convert fields to string for each product
+        $productsData = [];
+        foreach ($products as $product) {
+            $productData = $product->toArray(); // Convert product to array
+    
+            // Convert each field to string except id
+            foreach ($productData as $key => $value) {
+                if ($key !== 'id') {
+                    $productData[$key] = (string) $value;
+                }
+            }
+    
+            $productsData[] = $productData;
+        }
+    
         // If products are found, return a JSON response with the products
         $response = [
-            'products' => $products,
+            'products' => $productsData,
             'message' => 'Products retrieved successfully',
             'status' => true
         ];
         return response()->json($response, 200);
     }
+    
+    
 
     public function getExoticProduct()
     {
         // Retrieve all products from the database
         $products = Product::where('conditions', 'exotic')->where('status', 'active')->get();
-    
+
         // Check if there are any products
         if ($products->isEmpty()) {
             // If there are no products, return a JSON response with a message
@@ -120,10 +137,24 @@ class ProductController extends Controller
             ];
             return response()->json($response, 404);
         }
+
+        $productsData = [];
+        foreach ($products as $product) {
+            $productData = $product->toArray(); // Convert product to array
+    
+            // Convert each field to string except id
+            foreach ($productData as $key => $value) {
+                if ($key !== 'id') {
+                    $productData[$key] = (string) $value;
+                }
+            }
+    
+            $productsData[] = $productData;
+        }
     
         // If products are found, return a JSON response with the products
         $response = [
-            'products' => $products,
+            'products' => $productsData,
             'message' => 'Products retrieved successfully',
             'status' => true
         ];
@@ -134,7 +165,7 @@ class ProductController extends Controller
     {
         // Retrieve all products from the database
         $products = Product::where('conditions', 'discount')->where('status', 'active')->get();
-    
+
         // Check if there are any products
         if ($products->isEmpty()) {
             // If there are no products, return a JSON response with a message
@@ -144,10 +175,24 @@ class ProductController extends Controller
             ];
             return response()->json($response, 404);
         }
+
+        $productsData = [];
+        foreach ($products as $product) {
+            $productData = $product->toArray(); // Convert product to array
+    
+            // Convert each field to string except id
+            foreach ($productData as $key => $value) {
+                if ($key !== 'id') {
+                    $productData[$key] = (string) $value;
+                }
+            }
+    
+            $productsData[] = $productData;
+        }
     
         // If products are found, return a JSON response with the products
         $response = [
-            'products' => $products,
+            'products' => $productsData,
             'message' => 'Products retrieved successfully',
             'status' => true
         ];
@@ -158,7 +203,7 @@ class ProductController extends Controller
     {
         // Retrieve all products from the database
         $products = Product::where('conditions', 'new')->where('status', 'active')->get();
-    
+
         // Check if there are any products
         if ($products->isEmpty()) {
             // If there are no products, return a JSON response with a message
@@ -168,10 +213,25 @@ class ProductController extends Controller
             ];
             return response()->json($response, 404);
         }
+
+        // If products are found, return a JSON response with the products
+        $productsData = [];
+        foreach ($products as $product) {
+            $productData = $product->toArray(); // Convert product to array
+    
+            // Convert each field to string except id
+            foreach ($productData as $key => $value) {
+                if ($key !== 'id') {
+                    $productData[$key] = (string) $value;
+                }
+            }
+    
+            $productsData[] = $productData;
+        }
     
         // If products are found, return a JSON response with the products
         $response = [
-            'products' => $products,
+            'products' => $productsData,
             'message' => 'Products retrieved successfully',
             'status' => true
         ];

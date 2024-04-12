@@ -69,19 +69,28 @@ class BannerController extends Controller
     }
 
     public function getAllBanner()
-{
-    try {
-        $banners = $this->banner->orderBy('id', 'DESC')->where('status', 'active')->get();
-
-        if ($banners->isEmpty()) {
-            return response()->json(['error' => 'No banners found'], 404);
+    {
+        try {
+            $banners = $this->banner->orderBy('id', 'DESC')->where('status', 'active')->get();
+    
+            if ($banners->isEmpty()) {
+                return response()->json(['error' => 'No banners found'], 404);
+            }
+    
+            // Convert added_by to string for each banner
+            $bannersData = [];
+            foreach ($banners as $banner) {
+                $bannerData = $banner->toArray(); // Convert banner to array
+                $bannerData['added_by'] = (string) $banner->added_by; // Convert added_by to string
+                $bannersData[] = $bannerData;
+            }
+    
+            return response()->json(['banners' => $bannersData], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve banners.'], 500);
         }
-
-        return response()->json(['banners' => $banners], 200);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Failed to retrieve banners.'], 500);
     }
-}
+    
 
     /**
      * Display the specified resource.

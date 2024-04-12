@@ -84,35 +84,68 @@ class CategoryController extends Controller
     {
         try {
             $categories = $this->category->with('parent_info')->where('status', 'active')->get();
-
+    
             if ($categories->isEmpty()) {
                 return response()->json(['error' => 'No categories found'], 404);
             }
-
-            return response()->json(['categories' => $categories], 200);
+    
+            // Convert fields to string for each category
+            $categoriesData = [];
+            foreach ($categories as $category) {
+                $categoryData = $category->toArray(); // Convert category to array
+    
+                // Convert each field to string except id, parent_id, and parent_info
+                foreach ($categoryData as $key => $value) {
+                    if (!in_array($key, ['id', 'parent_id', 'parent_info'])) {
+                        $categoryData[$key] = (string) $value;
+                    }
+                }
+    
+                $categoriesData[] = $categoryData;
+            }
+    
+            return response()->json(['categories' => $categoriesData], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to retrieve categories'], 500);
         }
     }
+    
+
 
     public function getCategoryProducts(Request $request, $categoryId)
-    {
-        try {
-            // Retrieve products belonging to the specified category
-            $products = Product::where('cat_id', $categoryId)->where('status', 'active')->get();
+{
+    try {
+        // Retrieve products belonging to the specified category
+        $products = Product::where('cat_id', $categoryId)->where('status', 'active')->get();
 
-            if ($products->isEmpty()) {
-                // If no products found for the category, return a JSON response with a message
-                return response()->json(['error' => 'No products found for the category'], 404);
+        if ($products->isEmpty()) {
+            // If no products found for the category, return a JSON response with a message
+            return response()->json(['error' => 'No products found for the category'], 404);
+        }
+
+        // Convert fields to string for each product
+        $productsData = [];
+        foreach ($products as $product) {
+            $productData = $product->toArray(); // Convert product to array
+
+            // Convert each field to string except id
+            foreach ($productData as $key => $value) {
+                if ($key !== 'id') {
+                    $productData[$key] = (string) $value;
+                }
             }
 
-            // If products are found, return a JSON response with the products
-            return response()->json(['products' => $products], 200);
-        } catch (\Exception $e) {
-            // If an exception occurs, return a JSON response with an error message
-            return response()->json(['error' => 'Failed to retrieve products'], 500);
+            $productsData[] = $productData;
         }
+
+        // If products are found, return a JSON response with the products
+        return response()->json(['products' => $productsData], 200);
+    } catch (\Exception $e) {
+        // If an exception occurs, return a JSON response with an error message
+        return response()->json(['error' => 'Failed to retrieve products'], 500);
     }
+}
+
 
 
     /**
