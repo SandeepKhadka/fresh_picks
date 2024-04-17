@@ -74,7 +74,8 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('order.show', $order->id) }}" class="btn btn-primary">
-                                                    <i class="fa fa-eye">
+                                                    {{-- <i class="fa fa-eye"> --}}
+                                                        View Order
                                                     </i>
                                                 </a>
                                             </td>

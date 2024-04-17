@@ -97,7 +97,7 @@ class OrderController extends Controller
         $data['payment_status'] = ($data['payment_method'] == 'cod') ? 'unpaid' : 'paid';
 
         $data['condition'] = 'processing';
-        $data['delivery_charge'] = 100;
+        $data['delivery_charge'] = 300;
 
         // Create the order
         $order = $this->order->create($data);

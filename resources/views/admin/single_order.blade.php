@@ -3,7 +3,7 @@
 @section('main-content')
     <div class="container-fluid">
         {{-- BreadCrumb  --}}
-        <div class="row">
+        <div class="row" >
             <div class="col-lg-12 col-md-12 col-sm-12">
                 {{-- <nav aria-label="breadcrumb"> --}}
                 <ul class="breadcrumb float-left">
@@ -14,7 +14,7 @@
                     {{ \App\Models\ProductOrder::where('order_id', $order_data->id)->count() }}</p>
                 {{-- </nav> --}}
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" >
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title" style="margin-top: 8px; font-weight: bold;">Order List</h3>
@@ -23,8 +23,8 @@
                             </i>
                         </a>
                     </div>
-                    <div class="card-body">
-                        <table class="table table-bordered">
+                    <div class="card-body" style="background: rgb(136, 136, 136);">
+                        <table class="table table-bordered" style="color: white">
                             <thead>
                                 <tr>
                                     <th style="width: 10px">S.N.</th>
@@ -84,11 +84,6 @@
 
                                                 </i>
                                             </a>
-                                            <a href="#" class="btn btn-warning" title="download">
-                                                <i class="fa fa-download">
-
-                                                </i>
-                                            </a>
                                             <form action="{{ route('order.destroy', $order_data->id) }}" method="post"
                                                 class="d-inline">
                                                 @method('delete')
@@ -103,8 +98,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-body">
-                        <table class="table table-bordered">
+                    <div class="card-body" style="background: rgb(136, 136, 136);">
+                        <table class="table table-bordered" style="color: white">
                             <thead>
                                 <tr>
                                     <th style="width: 10px">S.N.</th>
@@ -145,7 +140,7 @@
                     </div>
                     <div class="row">
                         <div class="col-6"></div>
-                        <div class="col-5 border px-3 py-3">
+                        <div class="px-3 py-3">
                             <p>
                                 <strong>Total</strong>: Rs {{ number_format($order_data->total_amount, 2) }}
                             </p>
